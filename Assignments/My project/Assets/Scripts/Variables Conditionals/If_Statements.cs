@@ -36,7 +36,11 @@ public class If_Statements : MonoBehaviour
         }
        else if(weather == "Sunny" || weather == "Partly Cloudy")
         {
+<<<<<<< HEAD
             Debug.Log("You do not need a coat, get a job!");
+=======
+            Debug.Log("You do not need a coat, get a job!")
+>>>>>>> main
         }
     }
 
