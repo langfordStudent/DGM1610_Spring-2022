@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4805894679245884884}
   m_Layer: 0
-  m_Name: Doorway
+  m_Name: BarrierDoorway
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
