@@ -7,12 +7,15 @@ public class Projectile : MonoBehaviour
     public float speed;
     private Transform player;
     private Vector2 target;
+    private PlayerController playerController;
+    public int damage;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         target = new Vector2(player.position.x, player.position.y);
+        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -31,6 +34,7 @@ public class Projectile : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             DestroyProjectile();
+            playerController.TakeDamage(damage);
         }
     }
     
