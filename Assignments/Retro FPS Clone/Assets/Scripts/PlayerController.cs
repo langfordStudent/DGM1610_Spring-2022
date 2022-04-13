@@ -5,12 +5,19 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
     public float moveSpeed;
     private Rigidbody rb;
     private Vector3 moveInput;
     private Vector2 mouseInput;
     public float mouseSensitivity = 1.0f;
-
+    public GameObject bulletImpact;
+    public int currentAmmo;
+    public Camera viewCam;
+    private void Awake()
+    {
+        instance = this;
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +35,27 @@ public class PlayerController : MonoBehaviour
         rb.velocity = (moveH + moveV) * moveSpeed;
 
         mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * mouseSensitivity;
-        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y - mouseInput.x, transform.rotation.eulerAngles.z);
+        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseInput.x, transform.rotation.eulerAngles.z);
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            if (currentAmmo > 0)
+            {
+                Ray ray = viewCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    Debug.Log("I'm looking at " + hit.transform.name);
+                    Instantiate(bulletImpact, hit.point, transform.rotation);
+                }
+                else
+                {
+                    Debug.Log("RayCast isn't hitting anything.");
+                }
+                
+                currentAmmo --;
+            }
+        }
     }
 }
