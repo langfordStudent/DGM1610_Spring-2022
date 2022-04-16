@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Patrol : MonoBehaviour
@@ -33,15 +31,15 @@ public class Patrol : MonoBehaviour
     {
         transform.position = Vector2.MoveTowards(transform.position, startPoint.position, speed * Time.deltaTime);
 
-        if(Vector2.Distance(transform.position, startPoint.position) < 0.2f)
+        if (Vector2.Distance(transform.position, startPoint.position) < 0.2f)
         {
-            if(waitTime <=0)
+            if (waitTime <= 0)
             {
                 startPoint.position = new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
-               
+
                 waitTime = startWaitTime;
             }
-            
+
             else
             {
                 waitTime -= Time.deltaTime;

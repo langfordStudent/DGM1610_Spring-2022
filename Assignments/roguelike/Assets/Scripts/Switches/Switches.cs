@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Switches : MonoBehaviour
@@ -27,7 +25,7 @@ public class Switches : MonoBehaviour
                 break;
             case "We are being attacked!":
                 print("Run away in shame, you coward!");
-                break; 
+                break;
         }
 
         /*
