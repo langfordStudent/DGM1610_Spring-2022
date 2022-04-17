@@ -4,10 +4,10 @@ public class Switches : MonoBehaviour
 {
     public string npcConv;
     //public int socialClass;
-    public string badges;
-    public string locations;
-    public string food;
-    public string weapon;
+    //public string badges;
+    //public string locations;
+    //public string food;
+    //public string weapon;
     //public int korokSeeds;
     //public int toDoList;
     //public int strengthPnts;
@@ -53,7 +53,6 @@ public class Switches : MonoBehaviour
                 print("Meeehhhhh");
                 break;
         }
-        
 
         switch (strengthPnts)
         {
@@ -122,64 +121,64 @@ public class Switches : MonoBehaviour
         switch (badges)
         {
             case "Rock":
-                print("");
+                print("You dont have your rock badge, to to uncle joe's and battle it out.");
                 break;
             case "Electric":
-                print("");
+                print("You have'nt recieved your Electricity badge, go like a power pole!");
                 break;
             case "Fire":
-                print("");
+                print("You have'nt gotten your fire badge, go sit in that broken sauna back at Park City!");
                 break;
             case "Water":
-                print("");
+                print("Take a dunk in the lake, you didn't earn that glorious aqua badge!");
                 break;
         }
 
-        switch (badges)
+        switch (locations)
         {
-            case "Rock":
-                print("");
+            case "St.George":
+                print("Hey wow, I'm from St.George as well!");
                 break;
-            case "Electric":
-                print("");
+            case "Provo":
+                print("I currently live in Provo! I moved here for school and work.");
                 break;
-            case "Fire":
-                print("");
+            case "Park City":
+                print("Park City is really nice, cost of living there and owning your own property is insane.");
                 break;
-            case "Water":
-                print("");
+            case "Santa Clara":
+                print("I love Santa Clara, I always come down every month to go visit my parents there.");
                 break;
         }
 
-        switch (badges)
+        switch (weapon)
         {
-            case "Rock":
-                print("");
+            case "Hand Gun":
+                print("The Hand Gun is a potent weapon, it's for pistol whipping your enemys.");
                 break;
-            case "Electric":
-                print("");
+            case "Shot Gun":
+                print("The shot gun would suit you well, you have very poor aim in close quarters");
                 break;
-            case "Fire":
-                print("");
+            case "Bazooka":
+                print("Hey if you wanna have fun blowing things up, the bazooka will do just that!");
                 break;
-            case "Water":
-                print("");
+            case "Knife":
+                print("Great for cutting onions, not so great if you're in a gun fight.");
                 break;
         }
 
-        switch (badges)
+        switch (food)
         {
-            case "Rock":
-                print("");
+            case "Cupcake":
+                print("Nice, the cupcake restored your health by 12.");
                 break;
-            case "Electric":
-                print("");
+            case "Pizza":
+                print("Aww yeah, your HP has been restored by 15.");
                 break;
-            case "Fire":
-                print("");
+            case "Ciggy":
+                print("Your HP went down by 10 but your PP went up by 5.");
                 break;
-            case "Water":
-                print("");
+            case "Mint Julep":
+                print("Wowza, your HP is fully restored!");
                 break;
         }
         */

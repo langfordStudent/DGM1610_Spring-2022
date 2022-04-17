@@ -4,7 +4,12 @@ enum Color { blue, red, yellow, green, orange, purple };
 enum CarMake { Toyota, Ford, Mazda, Chevrolet, Dodge, Acura };
 enum CarModel { Tacoma, Cruze, Mustang, Miata, Viper, Alero };
 enum Food { Pizza, Cake, Carrot, Potato, Steak, Corndog, Skittles };
-enum liquidity { ETH, BTC, USDC, JUNO, USDT, DOGE };
+enum Liquidity { ETH, BTC, USDC, JUNO, USDT, DOGE };
+enum PrimaryColors { Red, Yellow, Blue};
+enum SecondaryColors { Green, Purple, Orange};
+enum Movie { DespicableMe, Antz, ToyStory, IceAge, Totoro}
+enum Studio { Illumination, Dreamworks, Pixar, BlueSky, Ghibli}
+enum Animals { Lion, Tiger, Bear, Goat, Lizard, MobyDick}
 
 public class Enums : MonoBehaviour
 {
@@ -64,12 +69,37 @@ public class Enums : MonoBehaviour
             print("Gross.");
         */
 
-        RecallCars(CarMake.Ford, CarModel.Mustang);
-    }
+        /*
+        PrimaryColors baseColor;
+        SecondaryColors finalColor;
 
-    // Update is called once per frame
-    void Update()
-    {
+        
+
+        baseColor = PrimaryColors.Red;
+        finalColor = SecondaryColors.Purple;
+
+        FindColor(baseColor, finalColor);
+        */
+
+        /*
+        Movie movie;
+        Studio studio;
+
+        movie = Movie.ToyStory;
+        studio = Studio.Pixar;
+
+        WhoMadeIt(movie, studio);
+        */
+        
+        /*
+        Animals animal;
+
+        animal = Animals.Bear;
+
+        print(animal);
+        */
+
+        RecallCars(CarMake.Ford, CarModel.Mustang);
 
     }
 
@@ -88,4 +118,62 @@ public class Enums : MonoBehaviour
             print("There is no recall notice for your vehicle make and model.");
         }
     }
+
+    /*
+    void FindColor(PrimaryColors baseColor, SecondaryColors finalColor)
+    {
+        if (baseColor == PrimaryColors.Red && finalColor == SecondaryColors.Orange)
+        {
+            print("You need " + PrimaryColors.Yellow + " to make " + finalColor);
+        }
+        else if (baseColor == PrimaryColors.Red && finalColor == SecondaryColors.Purple)
+        {
+            print("You need " + PrimaryColors.Blue + " to make " + finalColor);
+        }
+        else if (baseColor == PrimaryColors.Blue && finalColor == SecondaryColors.Green)
+        {
+            print("You need " + PrimaryColors.Yellow + " to make " + finalColor);
+        }
+        else if (baseColor == PrimaryColors.Blue && finalColor == SecondaryColors.Purple)
+        {
+            print("You need " + PrimaryColors.Red + " to make " + finalColor);
+        }
+        else if (baseColor == PrimaryColors.Yellow && finalColor == SecondaryColors.Orange)
+        {
+            print("You need " + PrimaryColors.Red + " to make " + finalColor);
+        }
+        else if (baseColor == PrimaryColors.Yellow && finalColor == SecondaryColors.Green)
+        {
+            print("You need " + PrimaryColors.Blue + " to make " + finalColor);
+        }
+        else
+        {
+            print(baseColor + " cannot mix with another primary color to make " + finalColor);
+        }
+
+        void WhoMadeIt(Movie movie, Studio studio)
+        {
+            if(movie == Movie.ToyStory && studio == Studio.Pixar)
+            {
+                Debug.Log(studio + " did make " + movie);
+            }
+            else if(movie == Movie.Antz && studio == Studio.Dreamworks)
+            {
+                Debug.Log(studio + " did make " + movie);
+            }
+            else if (movie == Movie.Totoro && studio == Studio.Ghibli)
+            {
+                Debug.Log(studio + " did make " + movie);
+            }
+            else if (movie == Movie.IceAge && studio == Studio.BlueSky)
+            {
+                Debug.Log(studio + " did make " + movie);
+            }
+            else
+            {
+                Debug.Log(studio + " did'nt make " + movie);
+            }
+        }    
+    }
+    */
 }
