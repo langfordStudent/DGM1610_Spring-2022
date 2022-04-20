@@ -24,14 +24,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-
-    }
-
-    public void FixedUpdate()
-    {
         // Ground Check Sensor
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
-        
+
         // Non-Stick Player
         moveVelocity = 0f;
 
@@ -52,9 +47,8 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
-
     }
-
+    
     public void Jump()
     {
         rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
