@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Platforms : MonoBehaviour
 {
-    private float timeToDestroy = 1.5f;
+    private float timeToDestroy = 1.75f;
 
     void Update()
     {

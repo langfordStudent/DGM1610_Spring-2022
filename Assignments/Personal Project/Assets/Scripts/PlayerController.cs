@@ -1,37 +1,43 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-
-    [Header("PlayerAttributes")]
+    [Header("Player Attributes")]
     public float speed;
     public float jumpHeight;
-    public float wallJumpHeight;
     private Rigidbody rb;
     private float moveVelocity;
-    private bool frozenControls;
+    public int curHP;
+    public int maxHP = 3;
+    public HealthBar healthBar;
+    public float deathWait = 1.5f;
 
-    [Header("PlatformSpawner")]
+    [Header("Platform Spawner")]
     public GameObject platformHoriz;
     public GameObject platformVert;
     public int offsetPlatform;
 
-    [Header("PlatformAndWallCheck")]
+    [Header("Platform & Wall Check")]
     public LayerMask platformLayerMask;
     public LayerMask wallLayerMask;
     public float maxDistance;
-    public Transform platformCheck;
+    public Transform platformCheckAbove;
     public Transform wallCheckLeft;
     public Transform wallCheckRight;
-    private bool isGrounded;
-    private bool isHuggingWallRight;
-    private bool isHuggingWallLeft;
+    public Transform platformCheckBelow;
+    public bool isGrounded;
+    public bool isHuggingWallRight;
+    public bool isHuggingWallLeft;
+    public bool isAbove;
+
+    [Header("Scenes to Load After Death")]
+    private int sceneToLoad = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        frozenControls = false;
         isGrounded = true;
     }
 
@@ -39,7 +45,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // Check to see if the player is grounded
-        if (Physics.Raycast(platformCheck.position, Vector3.down, maxDistance, platformLayerMask))
+        if (Physics.Raycast(platformCheckBelow.position, Vector3.down, maxDistance, platformLayerMask))
         {
             isGrounded = true;
         }
@@ -68,67 +74,89 @@ public class PlayerController : MonoBehaviour
             isHuggingWallRight = false;
         }
 
+        //Check to see if the player is hitting the platform above
+        if (Physics.Raycast(platformCheckAbove.position, Vector3.up, maxDistance, platformLayerMask))
+        {
+            isAbove = true;
+        }
+        else
+        {
+            isAbove = false;
+        }
+
         // Non-Stick Player
         moveVelocity = 0f;
 
-        if (!frozenControls)
+        if (isGrounded == true && Input.GetKeyDown(KeyCode.Space))
         {
-            if (Physics.Raycast(platformCheck.position, Vector3.down, maxDistance, platformLayerMask) && Input.GetKeyDown(KeyCode.Space))
-            {
-                rb.velocity = new Vector3(rb.velocity.x, jumpHeight, 0);
-            }
-
-            // Input to move right
-            if (Input.GetKey(KeyCode.D))
-            {
-                moveVelocity = speed;
-            }
-
-            // Input to move left
-            if (Input.GetKey(KeyCode.A))
-            {
-                moveVelocity = -speed;
-            }
-
-            rb.velocity = new Vector3(moveVelocity, rb.velocity.y, 0);
-
-            // Spawn horizontal platform above the player
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                Vector3 spawnPos = new Vector3(PlayerPos().x, PlayerPos().y + offsetPlatform, 0);
-                Instantiate(platformHoriz, spawnPos, Quaternion.identity);
-            }
-
-            // Spawn horizontal platform below the player
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                Vector3 spawnPos = new Vector3(PlayerPos().x, PlayerPos().y - offsetPlatform, 0);
-                Instantiate(platformHoriz, spawnPos, Quaternion.identity);
-            }
-
-            // Spawn vertical platform left of the player
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                Vector3 spawnPos = new Vector3(PlayerPos().x - offsetPlatform, PlayerPos().y, 0);
-                Instantiate(platformVert, spawnPos, Quaternion.identity);
-            }
-
-            // Spawn vertical platform right of the player
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                Vector3 spawnPos = new Vector3(PlayerPos().x + offsetPlatform, PlayerPos().y, 0);
-                Instantiate(platformVert, spawnPos, Quaternion.identity);
-            }
+            rb.velocity = new Vector3(rb.velocity.x, jumpHeight, 0);
         }
-        //else if ()
-        //{
 
-        //}
+        // Input to move right
+        if (Input.GetKey(KeyCode.D))
+        {
+            moveVelocity = speed;
+        }
+
+        // Input to move left
+        if (Input.GetKey(KeyCode.A))
+        {
+            moveVelocity = -speed;
+        }
+
+        rb.velocity = new Vector3(moveVelocity, rb.velocity.y, 0);
+
+        // Spawn horizontal platform above the player
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isAbove == false)
+        {
+            Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y + offsetPlatform, 0);
+            Instantiate(platformHoriz, spawnPos, Quaternion.identity);
+        }
+
+        // Spawn horizontal platform below the player
+        if (Input.GetKeyDown(KeyCode.DownArrow) && isGrounded == false)
+        {
+            Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y - offsetPlatform, 0);
+            Instantiate(platformHoriz, spawnPos, Quaternion.identity);
+        }
+
+        // Spawn vertical platform left of the player
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && isHuggingWallLeft == false)
+        {
+            Vector3 spawnPos = new Vector3(transform.position.x - offsetPlatform, transform.position.y, 0);
+            Instantiate(platformVert, spawnPos, Quaternion.identity);
+        }
+
+        // Spawn vertical platform right of the player
+        if (Input.GetKeyDown(KeyCode.RightArrow) && isHuggingWallRight == false)
+        {
+            Vector3 spawnPos = new Vector3(transform.position.x + offsetPlatform, transform.position.y, 0);
+            Instantiate(platformVert, spawnPos, Quaternion.identity);
+        }
     }
 
-    // Function to find the current position of the player 
-    public Vector3 PlayerPos()
+    public void TakeDamage(int damage)
     {
-        return GameObject.FindGameObjectWithTag("Player").transform.position;
+        curHP -= damage;
+
+        healthBar.SetHealth(curHP);
+
+        if (curHP <= 0)
+        {
+            DeathToPlayer();
+        }
+    }
+
+    public void DeathToPlayer()
+    {
+        curHP = 0;
+        Destroy(gameObject);
+        deathWait -= Time.deltaTime;
+        RestartToBegining();
+    }
+
+    public void RestartToBegining()
+    {
+        SceneManager.LoadScene(sceneToLoad);
     }
 }
