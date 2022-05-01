@@ -7,22 +7,21 @@ public class ShootingTurret : MonoBehaviour
     public float startDelay;
     public GameObject projectile;
     public Transform shootFromHere;
-    //public bool closedFire;
+    private TurretFollowYAxis enemyScript;
 
     // Start is called before the first frame update
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        enemyScript = GameObject.FindGameObjectWithTag("Enemy").GetComponent<TurretFollowYAxis>();
         shotDelay = startDelay;
-        //closedFire = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if (closedFire == false)
-        //{
-        if (shotDelay <= 0)
+
+        if (shotDelay <= 0 && Vector3.Distance(transform.position, target.position) < enemyScript.agroRange)
         {
             Instantiate(projectile, shootFromHere.position, Quaternion.identity);
             shotDelay = startDelay;
@@ -31,6 +30,5 @@ public class ShootingTurret : MonoBehaviour
         {
             shotDelay -= Time.deltaTime;
         }
-        //}
     }
 }

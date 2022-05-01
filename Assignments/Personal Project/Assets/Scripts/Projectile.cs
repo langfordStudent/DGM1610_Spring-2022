@@ -6,7 +6,7 @@ public class Projectile : MonoBehaviour
     private Transform player;
     private Vector3 target;
     private PlayerController playerController;
-    public int damage;
+    public int damage = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -34,12 +34,11 @@ public class Projectile : MonoBehaviour
             DestroyProjectile();
             playerController.TakeDamage(damage);
         }
-        if (other.CompareTag("Platform"))
+        else if (other.CompareTag("Platform"))
         {
             DestroyProjectile();
         }
     }
-
     void DestroyProjectile()
     {
         Destroy(gameObject);

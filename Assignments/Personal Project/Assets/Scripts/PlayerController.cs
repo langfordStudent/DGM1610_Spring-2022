@@ -3,14 +3,16 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Player Health")]
+    public int curHP;
+    public int maxHP = 3;
+    public HealthBar healthBar;
+
     [Header("Player Attributes")]
     public float speed;
     public float jumpHeight;
     private Rigidbody rb;
     private float moveVelocity;
-    public int curHP;
-    public int maxHP = 3;
-    public HealthBar healthBar;
     public float deathWait = 1.5f;
 
     [Header("Platform Spawner")]
@@ -34,11 +36,20 @@ public class PlayerController : MonoBehaviour
     [Header("Scenes to Load After Death")]
     private int sceneToLoad = 0;
 
+    [Header("Audio")]
+    public AudioClip marker;
+    private AudioSource source;
+    public float loudness;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         isGrounded = true;
+        curHP = maxHP;
+        healthBar.SetHealth(maxHP);
+
+        source = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -87,9 +98,11 @@ public class PlayerController : MonoBehaviour
         // Non-Stick Player
         moveVelocity = 0f;
 
+        //Jump
         if (isGrounded == true && Input.GetKeyDown(KeyCode.Space))
         {
             rb.velocity = new Vector3(rb.velocity.x, jumpHeight, 0);
+            source.PlayOneShot(marker, loudness);
         }
 
         // Input to move right
